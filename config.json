@@ -3,8 +3,6 @@
 	"token": "NzAzMTM3MjYzMjY0OTg5MjE0.XqLEYw.Sw8Wt12WVXAqMJiKqzfHlhXdnmM",
 	"meaning_of_life": 42,
 	"birthday" : "24/4/20",
-	"log_state": false,
-	"power_roles_array": [],
 	"secret_passcodes": {
 		"bank": 1234,
 		"home": 4321
