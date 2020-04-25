@@ -1,5 +1,5 @@
 const fs = require('fs');
-
+const { vote_mute_roles } = require('./server.json')
 module.exports = {
     getMember(message, toFind = ''){
         toFind = toFind.toLowerCase();
@@ -69,5 +69,27 @@ module.exports = {
                 if (err) console.log('Error writing file:', err)
             })
         })
+    },
+    isHelper: function(message){
+        let perms = message.member.permissions;
+        if (perms.hasPermission('MANAGE_NICKNAMES'))
+            return true;
+        else 
+            return false;
+    },
+    isModerator: function(message){
+        let perms = message.member.permissions;
+        if (perms.has('MUTE_MEMBERS'))
+            return true;
+        else 
+            return false;
+    },
+    isVoteEligible: function(user){
+        if (user.roles.has(vote_mute_roles)){
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }
