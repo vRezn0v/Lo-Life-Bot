@@ -14,7 +14,7 @@ module.exports = {
             if (!target){
                 return message.reply("Person not found, please use a proper mention.").then(m => m.delete(10000));
             }
-            if (isModerator(target)||target.user.bot){
+            if (target.permissions.has("BAN_MEMBERS")||target.user.bot){
                 return message.reply("User can not be reported, please contact server staff or owner.")
             }
             if (args[1]){
@@ -22,7 +22,7 @@ module.exports = {
             }
             let role = message.guild.roles.find(r => r.name === muteRole);
             target.addRole(role).catch(console.error);
-            logEvent('mute', target, reason);
+            logMute(message, target, reason);
         }
         else {
             message.reply("You are not authorized to perform this action. Incident logged.")

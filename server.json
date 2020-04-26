@@ -3,5 +3,7 @@
     "power_roles_array": [],
     "vote_mute_threshold": 3,
     "vote_mute_roles": ["kool kids ™", "Helper"],
-    "mute_role": "Muted" 
+    "muteRole": "Muted",
+    "reportChannel": "reports",
+    "logChannel": "logs"
 }

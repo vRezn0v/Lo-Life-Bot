@@ -1,5 +1,6 @@
 const fs = require('fs');
-const { vote_mute_roles } = require('./server.json')
+const { vote_mute_roles } = require('./server.json');
+
 module.exports = {
     getMember(message, toFind = ''){
         toFind = toFind.toLowerCase();
@@ -91,5 +92,8 @@ module.exports = {
         else {
             return false;
         }
+    },
+    logMute: function(message, member, reason){
+
     }
 }
