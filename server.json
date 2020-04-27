@@ -1,9 +1,12 @@
 {
-    "log_state": false,
-    "power_roles_array": [],
-    "vote_mute_threshold": 3,
-    "vote_mute_roles": ["kool kids ™", "Helper"],
-    "muteRole": "Muted",
-    "reportChannel": "reports",
-    "logChannel": "logs"
+  "log_state": false,
+  "power_roles_array": [],
+  "vote_mute_threshold": 3,
+  "vote_mute_roles": [
+    "kool kids ™",
+    "Helper"
+  ],
+  "muteRole": "Muted",
+  "reportChannel": "reports",
+  "logChannel": "logs"
 }

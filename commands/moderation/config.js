@@ -1,5 +1,5 @@
 const { setLogState } = require('../../helpers');
-const { log_state, vote_mute_threshold, vote_mute_roles} = require('../../server.json');
+const { log_state, vote_mute_threshold, vote_mute_roles } = require('../../server.json');
 
 module.exports = {
     name: 'config',
@@ -39,7 +39,7 @@ module.exports = {
                         message.channel.send(`Logging is set to ${log_state}`);
                         return;
                     }
-                    //setLogState(state);
+                    setLogState(state);
                     message.channel.send("Logging " + args[1] + "d");
                     console.log(log_state);
                 }

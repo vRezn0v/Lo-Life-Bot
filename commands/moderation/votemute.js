@@ -1,13 +1,13 @@
 const { muteRole } = require('../../server.json');
-const { isModerator, logEvent } = require('../../helpers');
+const { isHelper, logEvent } = require('../../helpers');
 
 module.exports = {
     name: 'mute',
     category: 'moderation',
     description: 'Mute the tagged member indefinitely XD',
-    usage: '-mute @mention',
+    usage: '-votemute @mention',
     run: async (client, message, args) => {
-        if (isModerator(message)){
+        if (isHelper(message)){
             let reason='N/A';
             console.log(args[0]);
             let target = message.mentions.members.first() || message.guild.members.get(args[0]);

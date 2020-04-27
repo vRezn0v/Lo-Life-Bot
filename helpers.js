@@ -1,5 +1,10 @@
 const fs = require('fs');
-const { vote_mute_roles } = require('./server.json');
+
+const { RichEmbed } = require("discord.js");
+const { stripIndents } = require("common-tags");
+
+const { vote_mute_roles, logChannel } = require('./server.json');
+const config = require('./server.json');
 
 module.exports = {
     getMember(message, toFind = ''){
@@ -30,18 +35,12 @@ module.exports = {
         return log_state;
     },
     setLogState: function(state) {
-        jsonReader('./config.json', (err, config) => {
-            if (err) {
-                console.log('Error reading file:',err)
-                return
-            }
-
-            config.log_state = state;
-            
-            fs.writeFile('./config.json', JSON.stringify(config), (err) => {
-                if (err) console.log('Error writing file:', err)
-            })
-        })
+        config.log_state = state;
+        fs.writeFile('./server.json', JSON.stringify(config, null, 2), function writeJSON(err) {
+            if (err) return console.log(err);
+            console.log(JSON.stringify(config));
+            console.log('writing to ' + 'config');
+        });
     },
     addPowerRole: function(role){
         jsonReader('./config.json', (err, config) => {
@@ -93,7 +92,25 @@ module.exports = {
             return false;
         }
     },
-    logMute: function(message, member, reason){
+    logEvent: function(message, member, reason, type){
+        if (type=="mute"){
+            var color = "#ff0000";
+            var name = "Mute";
+        }
+        else if (type=="unmute"){
+            var color = "#00ff00";
+            var name = "Unmute";
+        }
+        const embed = new RichEmbed()
+            .setColor(color)
+            .setTimestamp()
+            .setAuthor(name, member.user.displayAvatarURL)
+            .setDescription(stripIndents`**Member:** ${member} *${member.user.id}*
+            **Responsible Moderator:** ${message.member}
+            **Reason:** ${reason}`);
 
+        const channel = message.guild.channels.find(c => c.name === logChannel);
+
+        return channel.send(embed);
     }
 }
