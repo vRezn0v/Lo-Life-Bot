@@ -30,10 +30,14 @@ module.exports = {
                 returntime = returntime * 1000;
                 break;
         }
+        let target = message.member;
+        if (args[2]!=null){
+            target = message.mentions.members.first() || message.guild.members.get(args[0]);
+        }
         console.log(args);
         client.setTimeout(function () {
-            var content = "Hello there! Please hydrate";
-            message.member.send(content);
+            var content = "Hey there! Drink up before I delete your knees";
+            target.send(content);
         },returntime);
         
     }

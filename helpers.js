@@ -72,7 +72,7 @@ module.exports = {
     },
     isHelper: function(message){
         let perms = message.member.permissions;
-        if (perms.hasPermission('MANAGE_NICKNAMES'))
+        if (perms.has('MANAGE_NICKNAMES'))
             return true;
         else 
             return false;
