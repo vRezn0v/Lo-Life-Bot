@@ -1,4 +1,4 @@
-const {getMember, formatDate } = require("../../helpers.js");
+const {getMember, formatDate, isVoteEligible } = require("../../helpers.js");
 const { RichEmbed } = require("discord.js");
 const { stripIndents } = require("common-tags");
 
@@ -18,7 +18,7 @@ module.exports = {
             .join(", ") || "none";
 
         const created = formatDate(member.user.createdAt);
-
+        //isVoteEligible(message, '284153835591696385');
         const embed = new RichEmbed()
             .setFooter(member.displayName, member.displayAvatarURL)
             .setThumbnail(member.user.displayAvatarURL)

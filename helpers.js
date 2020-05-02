@@ -43,18 +43,12 @@ module.exports = {
         });
     },
     addPowerRole: function(role){
-        jsonReader('./config.json', (err, config) => {
-            if (err) {
-                console.log('Error reading file:',err)
-                return
-            }
-
-            config.power_roles_array.append(role);
-            
-            fs.writeFile('./config.json', JSON.stringify(config), (err) => {
-                if (err) console.log('Error writing file:', err)
-            })
-        })
+        config.power_roles_array.push(role);
+        fs.writeFile('./server.json', JSON.stringify(config, null, 2), function writeJSON(err) {
+            if (err) return console.log(err);
+            console.log(JSON.stringify(config));
+            console.log('writing to ' + 'config');
+        });
     },
     removePowerRole: function(role){
         jsonReader('./config.json', (err, config) => {
@@ -70,6 +64,10 @@ module.exports = {
             })
         })
     },
+    listPowerRole: function() {
+        let x = config.power_roles_array;
+        return x;
+    },
     isHelper: function(message){
         let perms = message.member.permissions;
         if (perms.has('MANAGE_NICKNAMES'))
@@ -84,8 +82,12 @@ module.exports = {
         else 
             return false;
     },
-    isVoteEligible: function(user){
-        if (user.roles.has(vote_mute_roles)){
+    isVoteEligible: function(message, userid){
+        const user = message.guild.members.get(userid);
+        const hasRole = user.roles.some(role => vote_mute_roles.includes(role.name));
+        //console.log(user._roles);
+        //console.log(hasRole);
+        if (hasRole){
             return true;
         }
         else {

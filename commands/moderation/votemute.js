@@ -1,5 +1,5 @@
 const { muteRole, vote_mute_timeout , vote_mute_threshold } = require('../../server.json');
-const { isHelper, logEvent } = require('../../helpers');
+const { isHelper, logEvent, isVoteEligible } = require('../../helpers');
 
 const { RichEmbed } = require('discord.js');
 module.exports = {
@@ -21,12 +21,12 @@ module.exports = {
                 message.channel.send("Bro why you gotta do dis? Ping ayham").then(m => m.delete(10000));
             }
 
-            let title = `Mute User ${target.user.displayName}`;
+            let title = `Mute User ${target.displayName}`;
             let author = message.member.displayName;
-            let options = ['yes','no'];
+            let options = ['yes'];
             let emojiList = [`✅`];
             let timeout = vote_mute_timeout;
-            let text = `To vote, react using the corresponding emoji.\nThe voting will end in ${timeout} seconds.\n`;
+            let text = `To vote, react with the following emoji within next ${timeout} seconds.\n`;
 
             const emojiInfo = {};
 	        for (const option of options) {
@@ -51,6 +51,8 @@ module.exports = {
             const voterInfo = new Map();
             reactionCollector.on('collect', (reaction, user) => {
                 if (usedEmojis.includes(reaction.emoji.name)) {
+                    //&&isVoteEligible(message, user.id)
+                    console.log(voterInfo.get(user.id));
                     if (!voterInfo.has(user.id)) voterInfo.set(user.id, { emoji: reaction.emoji.name });
                     const votedEmoji = voterInfo.get(user.id).emoji;
                     if (votedEmoji !== reaction.emoji.name) {
@@ -60,10 +62,14 @@ module.exports = {
                         emojiInfo[votedEmoji].votes -= 1;
                         voterInfo.set(user.id, { emoji: reaction.emoji.name });
                     }
+                    console.log(reaction.users.keys());
                     emojiInfo[reaction.emoji.name].votes += 1;
                 }
             });
             reactionCollector.on('dispose', (reaction, user) => {
+                console.log(voterInfo.get(user.id));
+                console.log(reaction.users.keys());
+
                 if (usedEmojis.includes(reaction.emoji.name)) {
                     voterInfo.delete(user.id);
                     emojiInfo[reaction.emoji.name].votes -= 1;
@@ -71,39 +77,30 @@ module.exports = {
             });
         
             reactionCollector.on('end', () => {
-                text = 'Time\'s up!\n The council has decided your fate,*\n\n';
-                for (const emoji in emojiInfo) text += `\`${emojiInfo[emoji].option}\` - \`${emojiInfo[emoji].votes}\`\n\n`;
                 poll.delete();
-                const embed = new RichEmbed()
-                                .setTitle(`Poll - ${title}`)
-                                .setFooter(`Poll created by ${author}`)
-                                .setDescription(text);
-                message.channel.send(embed);
+                console.log(emojiInfo[Object.keys(emojiInfo)[0]].votes);
+                if (emojiInfo[Object.keys(emojiInfo)[0]].votes>=vote_mute_threshold){
+                    let reason='N/A';
+                    if (args[1]){
+                        reason = args[1];
+                    }
+                    let role = message.guild.roles.find(r => r.name === muteRole);
+                    target.addRole(role).catch(console.error);
+                    logEvent(message, target, reason, "mute");
+                    const embed = new RichEmbed()
+                                    .setTitle(`Votemute: ${target.displayName}`)
+                                    .setFooter(`Poll created by ${author}`)
+                                    .setDescription(`Muted User: ${target}`);
+                    return message.channel.send(embed);
+                }
+                else {
+                    const embed = new RichEmbed()
+                                    .setTitle(`Couldn't ${title}`)
+                                    .setFooter(`Poll created by ${author}`)
+                                    .setDescription(`Not enough votes`);
+                    return message.channel.send(embed);
+                }
             });
-
-            let reason='N/A';
-            if (args[1]){
-                reason = args[1];
-            }
-            console.log(emojiInfo);
-            const tick = '%E2%9C%85';
-            if (emojiInfo[Object.keys(emojiInfo)[0]].votes>vote_mute_threshold){
-                let role = message.guild.roles.find(r => r.name === muteRole);
-                target.addRole(role).catch(console.error);
-                logEvent(message, target, reason, "mute");
-                const embed = new RichEmbed()
-                                .setTitle(`Poll - ${title}`)
-                                .setFooter(`Poll created by ${author}`)
-                                .setDescription(`Muted User: ${target}`);
-                message.channel.send(embed);
-            }
-            else {
-                const embed = new RichEmbed()
-                .setTitle(`Couldn't ${title}`)
-                .setFooter(`Poll created by ${author}`)
-                .setDescription(`Not enough votes`);
-                return message.channel.send(embed);
-            }
         }
         else {
             message.reply("You are not authorized to perform this action. Incident logged.");
