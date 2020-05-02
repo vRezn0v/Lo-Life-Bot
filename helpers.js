@@ -85,8 +85,7 @@ module.exports = {
     isVoteEligible: function(message, userid){
         const user = message.guild.members.get(userid);
         const hasRole = user.roles.some(role => vote_mute_roles.includes(role.name));
-        //console.log(user._roles);
-        //console.log(hasRole);
+        
         if (hasRole){
             return true;
         }
