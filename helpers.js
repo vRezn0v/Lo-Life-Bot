@@ -7,6 +7,13 @@ const { vote_mute_roles, logChannel } = require('./server.json');
 const config = require('./server.json');
 
 module.exports = {
+    hydration_messages : [
+        "Drink Up!",
+        "Wind down and take a drink of water, brave traveller.",
+        "Drink some water before I delete your kneecaps.",
+        "You sure you are not forgetting to drink ocean sauce?",
+        "Here's a reminder to get your refill of ice juice."
+    ],
     getMember(message, toFind = ''){
         toFind = toFind.toLowerCase();
 
@@ -85,7 +92,7 @@ module.exports = {
     isVoteEligible: function(message, userid){
         const user = message.guild.members.get(userid);
         const hasRole = user.roles.some(role => vote_mute_roles.includes(role.name));
-        
+        console.log(hasRole);
         if (hasRole){
             return true;
         }
@@ -106,7 +113,7 @@ module.exports = {
             .setColor(color)
             .setTimestamp()
             .setAuthor(name, member.user.displayAvatarURL)
-            .setDescription(stripIndents`**Member:** ${member} *${member.user.id}*
+            .setDescription(stripIndents`**Member:** ${member} [${member.user.id}]
             **Responsible Moderator:** ${message.member}
             **Reason:** ${reason}`);
 

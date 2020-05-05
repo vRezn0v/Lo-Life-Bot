@@ -1,4 +1,4 @@
-const { hydrate } = require('../../server.json');
+const { hydration_messages } = require('../../helpers');
 
 module.exports = {
     name: 'hydrate',
@@ -36,7 +36,7 @@ module.exports = {
         }
         console.log(args);
         client.setTimeout(function () {
-            var content = "Hey there! Drink up before I delete your knees";
+            var content = hydration_messages[Math.floor(Math.random() * hydration_messages.length)];
             target.send(content);
         },returntime);
         

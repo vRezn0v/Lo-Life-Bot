@@ -1,13 +1,13 @@
 {
   "log_state": false,
   "power_roles_array": [],
-  "vote_mute_threshold": 1,
-  "vote_mute_timeout": 10,
+  "vote_mute_threshold": 3,
+  "vote_mute_timeout": 30,
   "vote_mute_roles": [
     "kool kids ™",
     "Helper"
   ],
   "muteRole": "Muted",
-  "reportChannel": "reports",
-  "logChannel": "logs"
+  "reportChannel": "mutes-bans-all-that",
+  "logChannel": "mutes-bans-all-that"
 }
