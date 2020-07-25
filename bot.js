@@ -17,7 +17,7 @@ client.on('ready', () => {
 
 
 client.on('message', msg => {
-    console.log(msg.content);
+    console.log(msg.author.username + '@' + msg.channel.name + '>>' + msg.content);
     if (!msg.content.startsWith(prefix) || msg.author.bot) return;
 
     const args = msg.content.slice(prefix.length).split(/ +/);
