@@ -6,7 +6,15 @@ module.exports = {
     usage: '[prefix]help (cmd?)',
     description: 'returns help texts',
     run: async (client, message, args) => {
-        if (args.length===1&&args[0]==='list'){
+        var allcmds = [];
+        readdirSync("./commands").forEach(dir => {
+            const commands = readdirSync(`./commands/${dir}/`).filter(file => file.endsWith(".js"));
+            for (let file of commands) {
+                let pull = require(`../${dir}/${file}`);
+                allcmds.push(pull.name);
+            }
+        });
+        if (args.length===0||args[0]==='list'){
             var description = [];
             readdirSync("./commands").forEach(dir => {
                 const commands = readdirSync(`./commands/${dir}/`).filter(file => file.endsWith(".js"));
@@ -24,6 +32,9 @@ module.exports = {
                             .setTitle("Commands List")
                             .setDescription(description);
             message.channel.send(cmdlist);
+        }
+        else if (allcmds.includes(args[0])){
+            message.channel.send("You Got It Chief.");
         }
     }
 }
