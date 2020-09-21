@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+
 const { prefix, token } = require('./config.json');
 
 const client = new Discord.Client();
@@ -11,9 +12,9 @@ client.aliases = new Discord.Collection();
 });
 
 client.on('ready', () => {
-    client.user.setActivity("staring into void of existence.", { type: "PLAYING"});
-    console.log(`Ready to serve on ${client.guilds.size} servers, for ${client.users.size} users.`);
-  });
+    client.user.setActivity("flying into the sun.", { type: "PLAYING"});
+    console.log(`MothBot Reporting to Duty Sire!`);
+});
 
 
 client.on('message', msg => {
@@ -30,8 +31,12 @@ client.on('message', msg => {
 	    command.run(client, msg, args);
     } catch (error) {
 	    console.error(error);
-	    msg.reply('Error in Execution!');
+	    msg.reply('Couldn\'t Execute Command: ' + commandName);
     }
 });
+
+client.on("guildCreate", guild => {
+    console.log("Joined a new guild: " + guild.name);
+})
 
 client.login(token);
