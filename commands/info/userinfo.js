@@ -1,5 +1,5 @@
 const {getMember, formatDate, isVoteEligible } = require("../../helpers.js");
-const { RichEmbed } = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const { stripIndents } = require("common-tags");
 
 module.exports = {
@@ -9,34 +9,28 @@ module.exports = {
     description: 'Info for tagged user, duh!',
     usage: "userinfo <@user?>",
     run: async (client, message, args) => {
-        const member = getMember(message, args.join(" "));
-
-        const joined = formatDate(member.joinedAt);
-        const role = member.roles
-            .filter(r => r.id !== message.guild.id)
-            .map(r => r)
-            .join(", ") || "none";
-
-        const created = formatDate(member.user.createdAt);
+        const target = getMember(message);
+        const joined = formatDate(target.joinedTimeStamp);
+        const created = formatDate(target.user.createdAt);
+        //const role = target.guild.roles;
+        //console.log(target.guild.roles);
+        var roles = [];
+        const role = target.roles.cache.forEach(e => roles.push(e)) || "none";
+        roles = roles.join(', ');
         //isVoteEligible(message, '284153835591696385');
-        const embed = new RichEmbed()
-            .setFooter(member.displayName, member.displayAvatarURL)
-            .setThumbnail(member.user.displayAvatarURL)
-            .setColor(member.displayHexColor === "#000000" ? "#ffffff" : member.displayHexColor)
-            .addField("Member Information", stripIndents`**Display Name:** ${member.displayName}
-            **Joined at:** ${joined}
-            **Roles:** ${role}`, true)
+        const embed = new MessageEmbed()
+            .setFooter(target.displayName, target.displayAvatarURL)
+            .setImage(target.user.displayAvatarURL)
+            .setColor(target.displayHexColor === "#000000" ? "#ffffff" : target.displayHexColor)
+            .addField("Member Information", stripIndents`**Display Name:** ${target.displayName}
+            **Joined at:** ${joined}`, true)
 
-            .addField("User Information", stripIndents`**ID:** ${member.user.id}
-            **Username:** ${member.user.username}
-            **Tag:** ${member.user.tag}
-            **Created at:** ${created}`, true)
-
+            .addField("User Information", stripIndents`**ID:** ${target.id}
+            **Username:** ${target.user.username}
+            **Tag:** ${target.user.tag}
+            **Created at:** ${created}
+            **Roles:** ${roles}`, true)
             .setTimestamp()
-
-            if (member.user.presence.game)
-                embed.addField('Currently Playing', `${member.user.presence.game.name}`);
-
-            message.channel.send(embed);
+        message.channel.send(embed);
     }
 }

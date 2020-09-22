@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const { RichEmbed } = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const { stripIndents } = require("common-tags");
 
 const { vote_mute_roles, logChannel } = require('./server.json');
@@ -14,24 +14,9 @@ module.exports = {
         "You sure you are not forgetting to drink ocean sauce?",
         "Here's a reminder to get your refill of ice juice."
     ],
-    getMember(message, toFind = ''){
-        toFind = toFind.toLowerCase();
-
-        let target = message.guild.members.get(toFind);
-
-        if (!target && message.mentions.members)
-            target = message.mentions.members.first();
-
-        if (!target && toFind) {
-            target = message.guild.members.find(member => {
-                return member.displayName.toLowerCase().includes.toFind ||
-                member.user.tag.toLowerCase().includes(toFind);
-            });
-        }
-
-        if (!target)
-            target = message.member;
-
+    getMember(message){
+        let toFind = message.mentions.members.first() || message.member;
+        let target = message.guild.members.resolve(toFind);
         return target;
     },
 
@@ -109,7 +94,7 @@ module.exports = {
             var color = "#00ff00";
             var name = "Unmute";
         }
-        const embed = new RichEmbed()
+        const embed = new MessageEmbed()
             .setColor(color)
             .setTimestamp()
             .setAuthor(name, member.user.displayAvatarURL)
