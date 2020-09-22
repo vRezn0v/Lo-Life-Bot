@@ -4,8 +4,8 @@ module.exports = {
     description: 'returns information about server',
     run: async (client, message, args) => {
         const month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        var userCount = message.guild.members.filter(member => !member.user.bot).size;
-        var botCount = message.guild.members.filter(member => member.user.bot).size; 
+        var userCount = message.guild.members.cache.filter(member => !member.user.bot).size;
+        var botCount = message.guild.members.cache.filter(member => member.user.bot).size; 
         const serverinfo = {
             color: 0xFF1493,
             title: message.guild.name,
