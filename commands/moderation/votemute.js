@@ -5,15 +5,12 @@ const { RichEmbed } = require('discord.js');
 module.exports = {
     name: 'votemute',
     category: 'moderation',
-    description: 'Mute the tagged member indefinitely XD',
-    usage: '-votemute @mention',
+    description: 'Mute the tagged member indefinitely after getting votes from regular members.',
+    usage: `**Requires Minimal Privilege**
+            \`\`\`votemute @user\`\`\``,
     run: async (client, message, args) => {
         if (isHelper(message)){
             let target = message.mentions.members.first() || message.guild.members.get(args[0]);
-
-            if (message.author.id==='369666374488031232'){
-                message.channel.send("Bro why you gotta do dis? Ping ayham").then(m => m.delete(10000));
-            }
             if (!target){
                 return message.reply("Person not found, please use a proper mention.").then(m => m.delete(10000));
             }

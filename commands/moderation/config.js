@@ -5,19 +5,22 @@ module.exports = {
     name: 'config',
     category: 'moderation',
     description: "Configure Astrid (Only Usable By Administrators)",
-    usage: "See help",
+    usage: `**Requires Elevated Access**\n
+            **Args**\n
+            \`\`\`
+            logging <enable|disable|state>
+            votemute <threshold *N*|roleset *ROLE*>
+            powerroles <add *role*|remove *role*|list>
+            \`\`\`
+            `,
     run: async (client, message, args) => {
         if (!message.member.hasPermission('ADMINISTRATOR')){
             message.reply("You are not authorized to perform this action.");
         }
         else {
-            console.log(args);
-            if (args[0]==null||args[0]=="help"){
-                message.channel.send("help, logging, votemute");
-            }
             if (args[0]=="logging"){
                 if (args[1]==null||args.length>2){
-                    message.reply("Usage: config logging enable|disable");
+                    message.reply("Usage: config logging <enable|disable>");
                 }
                 else if (args[1]=='enable'||args[1]=='disable'||args[1]=='state'){
                     var state;
@@ -46,7 +49,7 @@ module.exports = {
             }
             else if (args[0]=="votemute"){
                 if (args[1]==null){
-                    message.channel.send("Usage: config votemute threshold|roleset");
+                    message.channel.send("Usage: config votemute <threshold n|roleset rolename>");
                 }
                 else if (args[1]=="threshold"){
                     if (args[2]==null){
@@ -60,7 +63,7 @@ module.exports = {
                         message.channel.send(`Please use a valid integer above 3`);
                     }
                 }
-                else if (args[2]=="roles"){
+                else if (args[2]=="powerroles"){
                     if (args[3]=="add"){
                         //TODO: USE GET ROLE FUNCTION TO APPEND ROLE TO ARRAY AND RE DO HELPER FUNCTIONS
                     }

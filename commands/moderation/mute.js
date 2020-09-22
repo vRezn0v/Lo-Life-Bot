@@ -4,8 +4,9 @@ const { isModerator, logEvent } = require('../../helpers');
 module.exports = {
     name: 'mute',
     category: 'moderation',
-    description: 'Mute the tagged member indefinitely XD',
-    usage: '-mute @mention',
+    description: 'Mute the tagged member indefinitely',
+    usage: `**Requires Elevated Access**\n
+            \`\`\`mute @user\`\`\``,
     run: async (client, message, args) => {
         if (isModerator(message)){
             let reason='N/A';
