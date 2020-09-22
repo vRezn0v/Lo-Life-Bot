@@ -6,13 +6,7 @@ module.exports = {
     category: 'moderation',
     description: "Configure Astrid (Only Usable By Administrators)",
     usage: `**Requires Elevated Access**\n
-            **Args**\n
-            \`\`\`
-            logging <enable|disable|state>
-            votemute <threshold *N*|roleset *ROLE*>
-            powerroles <add *role*|remove *role*|list>
-            \`\`\`
-            `,
+            **Args**\n\`\`\`logging <enable|disable|state>\nvotemute <threshold *N*|roleset *ROLE*>\npowerroles <add *role*|remove *role*|list>\`\`\``,
     run: async (client, message, args) => {
         if (!message.member.hasPermission('ADMINISTRATOR')){
             message.reply("You are not authorized to perform this action.");

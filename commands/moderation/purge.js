@@ -6,9 +6,7 @@ module.exports = {
     name: "purge",
     category: "moderation",
     description: "Purges n messages from active channel. (Can not be older than 15 days)",
-    usage: `**Requires Elevated Access**
-            \`\`\`purge <number of messages>\`\`\`
-            `,
+    usage: `**Requires Elevated Access**\`\`\`purge <number of messages>\`\`\``,
     run: async(client, message, args) => {
         if (isModerator(message)){
             const user = message.mentions.users.first();

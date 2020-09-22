@@ -2,7 +2,7 @@ const { hydration_messages } = require('../../helpers');
 
 module.exports = {
     name: 'hydrate',
-    usage: 'mention a user (optional)',
+    usage: 'hydrate <@user?>',
     description: 'reminds you of a much needed thing, hydration',
     run: async (client, message, args) => {
         var tmin = 120;

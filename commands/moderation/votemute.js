@@ -6,8 +6,7 @@ module.exports = {
     name: 'votemute',
     category: 'moderation',
     description: 'Mute the tagged member indefinitely after getting votes from regular members.',
-    usage: `**Requires Minimal Privilege**
-            \`\`\`votemute @user\`\`\``,
+    usage: `**Requires Minimal Privilege**\`\`\`votemute @user\`\`\``,
     run: async (client, message, args) => {
         if (isHelper(message)){
             let target = message.mentions.members.first() || message.guild.members.get(args[0]);

@@ -5,8 +5,7 @@ module.exports = {
     name: 'mute',
     category: 'moderation',
     description: 'Mute the tagged member indefinitely',
-    usage: `**Requires Elevated Access**\n
-            \`\`\`mute @user\`\`\``,
+    usage: `**Requires Elevated Access**\n\`\`\`mute @user\`\`\``,
     run: async (client, message, args) => {
         if (isModerator(message)){
             let reason='N/A';

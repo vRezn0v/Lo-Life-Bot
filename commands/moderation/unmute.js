@@ -5,8 +5,7 @@ module.exports = {
     name: 'unmute',
     category: 'moderation',
     description: 'Unmute the tagged member',
-    usage: `**Requires Elevated Access**\n
-            \`\`\`unmute @user\`\`\``,
+    usage: `**Requires Elevated Access**\n\`\`\`unmute @user\`\`\``,
     run: async (client, message, args) => {
         if (isModerator(message)){
             let reason='N/A';
