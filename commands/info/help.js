@@ -1,5 +1,5 @@
 const { readdirSync } = require("fs");
-const { RichEmbed } = require("discord.js")
+const { MessageEmbed } = require("discord.js")
 
 module.exports = {
     name: 'help',
@@ -30,7 +30,7 @@ module.exports = {
                 description.push('**' + dir.toUpperCase() + ' Commands:**' + '\`\`\`' + cmdnames + '\`\`\`');
             });
             description = description.join('\n');
-            const cmdlist = new RichEmbed()
+            const cmdlist = new MessageEmbed()
                             .setColor('#CC0000')
                             .setTitle("Commands List")
                             .setDescription(description);
@@ -40,7 +40,7 @@ module.exports = {
             console.log(args[0]);
             for (var i=0;i<allcmds.length;i++){
                 if (allcmds[i]['key']===args[0]){
-                    const em = new RichEmbed()
+                    const em = new MessageEmbed()
                                 .setColor('#CCC0C0')
                                 .setTitle(`${args[0]} Usage`)
                                 .setDescription(allcmds[i]['value']);
