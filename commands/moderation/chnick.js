@@ -16,8 +16,17 @@ module.exports = {
         if (isModerator(message)){
             // find target
             let target = getMember(message);
-            target.setNickname(nick);
-            // execute action
+            if (isAdmin(target)) {
+                const senate = new MessageEmbed()
+                                .setColor("#FFFF00")
+                                .setTitle('**Error:** User Too Powerful')
+                                .setDescription("\`\`\`He is the Senate, RUN!\`\`\`")
+                                .setTimestamp();
+                return message.channel.send(senate);
+            } else {
+                // TODO: log event
+                return target.setNickname(nick);
+            }
         } else {
             const warn = new MessageEmbed()
                         .setColor('#FF0000')
