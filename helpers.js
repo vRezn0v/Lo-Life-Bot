@@ -130,7 +130,7 @@ module.exports = {
             **Responsible Moderator:** ${message.member}
             **Reason:** ${reason}`);
 
-        const channel = message.guild.channels.find(c => c.name === logChannel);
+        const channel = message.guild.channels.cache.find(channel => channel.name === logChannel);
 
         return channel.send(embed);
     }
