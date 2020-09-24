@@ -60,16 +60,44 @@ module.exports = {
         let x = config.power_roles_array;
         return x;
     },
-    isHelper: function(message){
+    authorIsHelper: function(message){
         let perms = message.member.permissions;
         if (perms.has('MANAGE_NICKNAMES'))
             return true;
         else 
             return false;
     },
-    isModerator: function(message){
+    isHelper: function(target){
+        let perms = target.permissions;
+        if (perms.has('MANAGE_NICKNAMES'))
+            return true;
+        else 
+            return false;
+    },
+    authorIsModerator: function(message){
         let perms = message.member.permissions;
         if (perms.has('MUTE_MEMBERS'))
+            return true;
+        else 
+            return false;
+    },
+    isModerator: function(target){
+        let perms = target.permissions;
+        if (perms.has('MUTE_MEMBERS'))
+            return true;
+        else 
+            return false;
+    },
+    authorIsAdmin: function(message){
+        let perms = message.member.permissions;
+        if (perms.has('ADMINISTRATOR'))
+            return true;
+        else 
+            return false;
+    },
+    isAdmin: function(target){
+        let perms = target.permissions;
+        if (perms.has('ADMINISTRATOR'))
             return true;
         else 
             return false;
