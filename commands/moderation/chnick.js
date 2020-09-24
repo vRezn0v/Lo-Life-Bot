@@ -1,5 +1,5 @@
 const { MessageEmbed } = require('discord.js');
-const { isModerator, getMember, isAdmin } = require('../../helpers');
+const { authorIsModerator, getMember, isAdmin } = require('../../helpers');
 
 module.exports = {
     name: 'chnick',
@@ -13,7 +13,7 @@ module.exports = {
         } else if (args.length===2) {
             nick = args[1];
         }
-        if (isModerator(message)){
+        if (authorIsModerator(message)){
             // find target
             let target = getMember(message);
             if (isAdmin(target)) {

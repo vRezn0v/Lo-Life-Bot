@@ -1,5 +1,5 @@
 const { muteRole } = require('../../server.json');
-const { isModerator, logEvent } = require('../../helpers');
+const { logEvent, authorIsModerator } = require('../../helpers');
 
 module.exports = {
     name: 'unmute',
@@ -7,7 +7,7 @@ module.exports = {
     description: 'Unmute the tagged member',
     usage: `**Requires Elevated Access**\n\`\`\`unmute @user\`\`\``,
     run: async (client, message, args) => {
-        if (isModerator(message)){
+        if (authorIsModerator(message)){
             let reason='N/A';
             console.log(args[0]);
             let target = message.mentions.members.first() || message.guild.members.get(args[0]);

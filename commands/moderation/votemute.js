@@ -1,5 +1,5 @@
 const { muteRole, vote_mute_timeout , vote_mute_threshold } = require('../../server.json');
-const { isHelper, logEvent, isVoteEligible } = require('../../helpers');
+const { authorIsHelper, logEvent, isVoteEligible } = require('../../helpers');
 
 const { RichEmbed } = require('discord.js');
 module.exports = {
@@ -8,7 +8,7 @@ module.exports = {
     description: 'Mute the tagged member indefinitely after getting votes from regular members.',
     usage: `**Requires Minimal Privilege**\`\`\`votemute @user\`\`\``,
     run: async (client, message, args) => {
-        if (isHelper(message)){
+        if (authorIsHelper(message)){
             let target = message.mentions.members.first() || message.guild.members.get(args[0]);
             if (!target){
                 return message.reply("Person not found, please use a proper mention.").then(m => m.delete(10000));

@@ -2,6 +2,7 @@ const { RichEmbed } = require("discord.js");
 const { stripIndents } = require("common-tags");
 
 const { reportchannel } = require("../../server.json");
+const { isModerator } = require("../../helpers");
 
 module.exports = {
     name: "report",
@@ -15,7 +16,7 @@ module.exports = {
 
         if (!target)
             return message.channel.send("Person not found, please use a proper mention.").then(m => m.delete(5000));
-        if (target.permissions.has("BAN_MEMBERS") || target.user.bot)
+        if (isModerator(target) || target.user.bot)
             return message.channel.send("Unable to report, contact server staff please.").then(m => m.delete(5000));
 
         if(!args[1])

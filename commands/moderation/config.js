@@ -1,4 +1,4 @@
-const { setLogState } = require('../../helpers');
+const { setLogState, authorIsAdmin } = require('../../helpers');
 const { log_state, vote_mute_threshold, vote_mute_roles } = require('../../server.json');
 
 module.exports = {
@@ -8,7 +8,7 @@ module.exports = {
     usage: `**Requires Elevated Access**\n
             **Args**\n\`\`\`logging <enable|disable|state>\nvotemute <threshold *N*|roleset *ROLE*>\npowerroles <add *role*|remove *role*|list>\`\`\``,
     run: async (client, message, args) => {
-        if (!message.member.hasPermission('ADMINISTRATOR')){
+        if (!authorIsAdmin(message)){
             message.reply("You are not authorized to perform this action.");
         }
         else {

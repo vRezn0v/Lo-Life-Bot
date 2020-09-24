@@ -1,14 +1,14 @@
 const { MessageEmbed } = require("discord.js");
 const { stripIndents } = require("common-tags");
+const { authorIsModerator } = require('../../helpers');
 
-const { isModerator } = require('../../helpers');
 module.exports = {
     name: "purge",
     category: "moderation",
     description: "Purges n messages from active channel. (Can not be older than 15 days)",
     usage: `**Requires Elevated Access**\`\`\`purge <number of messages>\`\`\``,
     run: async(client, message, args) => {
-        if (isModerator(message)){
+        if (authorIsModerator(message)){
             const channel = message.channel;
             const user = message.mentions.users.first();
             const amount = !!parseInt(args[0]) ? parseInt(args[0]) : parseInt(args[1]);
