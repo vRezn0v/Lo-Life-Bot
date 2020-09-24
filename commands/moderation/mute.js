@@ -1,5 +1,6 @@
 const { muteRole } = require('../../server.json');
-const { authorIsModerator, logEvent } = require('../../helpers');
+const { authorIsModerator, logEvent, isAdmin } = require('../../helpers');
+const { MessageEmbed } = require('discord.js');
 
 module.exports = {
     name: 'mute',
@@ -14,18 +15,34 @@ module.exports = {
             if (!target){
                 return message.reply("Person not found, please use a proper mention.").then(m => m.delete(10000));
             }
-            if (target.permissions.has("BAN_MEMBERS")||target.user.bot){
-                return message.reply("User can not be reported, please contact server staff or owner.")
+            if (isAdmin(target)||target.user.bot){
+                const senate = new MessageEmbed()
+                                .setColor("#FFFF00")
+                                .setTitle('**Error:** User Too Powerful')
+                                .setDescription("\`\`\`He is the Senate, RUN!\`\`\`")
+                                .setTimestamp();
+                return message.channel.send(senate);
             }
             if (args[1]){
                 reason = args[1];
             }
-            let role = message.guild.roles.cache.find('name', muteRole);
-            target.addRole(role).catch(console.error);
+            let role;
+            message.guild.roles.cache.forEach(element => {
+                if (element.name===muteRole) {
+                    role = element.id;
+                }
+            });
+            target.roles.add(role).catch(console.error);
             logEvent(message, target, reason, "mute");
         }
         else {
-            message.reply("You are not authorized to perform this action. Incident logged.")
+            const warn = new MessageEmbed()
+                        .setColor('#FF0000')
+                        .setTitle(`:lock: **Warning!**`)
+                        .setDescription('\`\`\`You Are Not Authorized For This Action.\`\`\`')
+                        .setFooter(`Don't think that you can pull a sneaky on me, ${message.member.displayName}`)
+                        .setTimestamp();
+            return message.channel.send(warn);
         }
     }
 }

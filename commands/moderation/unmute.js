@@ -12,21 +12,37 @@ module.exports = {
             console.log(args[0]);
             let target = message.mentions.members.first() || message.guild.members.get(args[0]);
             if (!target){
-                return message.reply("Person not found, please use a proper mention.").then(m => m.delete(10000));
+                return message.reply("User not found, please use a proper mention.").then(m => m.delete(10000));
             }
-            const hasRole = target.roles.some(role => muteRole === role.name);
+            let hasRole = false;
+            target.roles.cache.forEach(role => {
+                if (role.name===muteRole){
+                    hasRole = true;
+                }
+            })
             if (!hasRole) {
                 return message.channel.send(`User ${target.displayName} is not muted.`).then(m => m.delete(10000));
             }
             if (args[1]){
                 reason = args[1];
             }
-            let role = message.guild.roles.find(r => r.name === muteRole);
-            target.removeRole(role).catch(console.error);
+            let role;
+            message.guild.roles.cache.forEach(element => {
+                if (element.name===muteRole) {
+                    role = element.id;
+                }
+            });            
+            target.roles.remove(role).catch(console.error);
             logEvent(message, target, reason, "unmute");
         }
         else {
-            message.reply("You are not authorized to perform this action. Incident logged.")
+            const warn = new MessageEmbed()
+                        .setColor('#FF0000')
+                        .setTitle(`:lock: **Warning!**`)
+                        .setDescription('\`\`\`You Are Not Authorized For This Action.\`\`\`')
+                        .setFooter(`Don't think that you can pull a sneaky on me, ${message.member.displayName}`)
+                        .setTimestamp();
+            return message.channel.send(warn);
         }
     }
 }
