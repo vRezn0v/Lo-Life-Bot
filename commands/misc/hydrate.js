@@ -34,11 +34,11 @@ module.exports = {
         if (args[2]!=null){
             target = message.mentions.members.first() || message.guild.members.get(args[0]);
         }
-        console.log(args);
-        client.setTimeout(function () {
-            var content = hydration_messages[Math.floor(Math.random() * hydration_messages.length)];
+        console.log(returntime);
+        var content = hydration_messages[Math.floor(Math.random() * hydration_messages.length)];
+        setTimeout(function () {
             target.send(content);
-        },returntime);
+        }, returntime);
         
     }
 }
