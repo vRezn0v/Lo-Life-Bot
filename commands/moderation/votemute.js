@@ -1,7 +1,7 @@
 const { muteRole, vote_mute_timeout , vote_mute_threshold } = require('../../server.json');
 const { authorIsHelper, logEvent, isVoteEligible } = require('../../helpers');
 
-const { RichEmbed } = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 module.exports = {
     name: 'votemute',
     category: 'moderation',
@@ -25,30 +25,22 @@ module.exports = {
             let timeout = vote_mute_timeout;
             let text = `To vote, react with the following emoji within next ${timeout} seconds.\n`;
             
-            const embed =new RichEmbed()
+            const embed =new MessageEmbed()
                 .setTitle(`${title}`)
                 .setFooter(`Vote called by ${author}`)
                 .setDescription(text);
 
             const poll = await message.channel.send(embed);
             await poll.react(vote);
-
+            //(vote === reaction._emoji.name) && !user.bot  && isVoteEligible(message, user) && 
             const reactionCollector = poll.createReactionCollector(
-                (reaction, user) => (vote === reaction.emoji.name) && !user.bot && isVoteEligible(message, user.id),
-                timeout === 0 ? {} : { time: timeout * 1000 }
-            );
-
-            reactionCollector.on('collect', (reaction, user) => {
-                votes = reaction.users.size;
-            });
-            reactionCollector.on('remove', (reaction, user) => {
-                votes = reaction.users.size;
-            });
+                (reaction, user) => (reaction._emoji.name==vote) && !user.bot && isVoteEligible(message, user),
+                timeout === 0 ? {} : { time: timeout*1000 });
         
-            reactionCollector.on('end', () => {
+            reactionCollector.on('end', collected => {
+                votes = collected.get(vote).count;
                 if (votes>0)
                     votes-=1;
-                
                 console.log(votes);
                 poll.delete();
                 if (votes>=vote_mute_threshold){
@@ -56,17 +48,22 @@ module.exports = {
                     if (args[1]){
                         reason = args[1];
                     }
-                    let role = message.guild.roles.find(r => r.name === muteRole);
-                    target.addRole(role).catch(console.error);
+                    let role;
+                    message.guild.roles.cache.forEach(element => {
+                        if (element.name===muteRole) {
+                            role = element.id;
+                        }
+                    });
+                    target.roles.add(role).catch(console.error);
                     logEvent(message, target, reason, "mute");
-                    const embed = new RichEmbed()
+                    const embed = new MessageEmbed()
                                     .setTitle(`Votemute: ${target.displayName}`)
                                     .setFooter(`Poll created by ${author}`)
                                     .setDescription(`Muted User: ${target}`);
                     return message.channel.send(embed);
                 }
                 else {
-                    const embed = new RichEmbed()
+                    const embed = new MessageEmbed()
                                     .setTitle(`Couldn't ${title}`)
                                     .setFooter(`Poll created by ${author}`)
                                     .setDescription(`Not enough votes`);
