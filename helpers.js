@@ -102,16 +102,16 @@ module.exports = {
         else 
             return false;
     },
-    isVoteEligible: function(message, userid){
-        const user = message.guild.members.get(userid);
-        const hasRole = user.roles.some(role => vote_mute_roles.includes(role.name));
-        console.log(hasRole);
-        if (hasRole){
-            return true;
-        }
-        else {
-            return false;
-        }
+    isVoteEligible: function(message, user){
+        user = message.guild.members.resolve(user.id);
+        let hasRole = false;
+        //console.log(user.roles.cache);
+        user.roles.cache.forEach(r => {
+            if (vote_mute_roles.includes(r['name'])) {
+                hasRole = true;
+            }
+        });
+        return hasRole;
     },
     logEvent: function(message, member, reason, type){
         if (type=="mute"){
