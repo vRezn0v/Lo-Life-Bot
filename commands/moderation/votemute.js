@@ -1,5 +1,5 @@
 const { muteRole, vote_mute_timeout , vote_mute_threshold } = require('../../server.json');
-const { authorIsHelper, logEvent, isVoteEligible } = require('../../helpers');
+const { authorIsHelper, logEvent, isVoteEligible, isAdmin } = require('../../helpers');
 
 const { MessageEmbed } = require('discord.js');
 module.exports = {
@@ -13,8 +13,13 @@ module.exports = {
             if (!target){
                 return message.reply("Person not found, please use a proper mention.").then(m => m.delete(10000));
             }
-            if (target.permissions.has("BAN_MEMBERS")||target.user.bot){
-                return message.reply("User can not be reported, please contact server staff or owner.")
+            if (isAdmin(target)||target.user.bot){
+                const senate = new MessageEmbed()
+                                .setColor("#FFFF00")
+                                .setTitle('**Error:** Member Can Not Be Silenced')
+                                .setDescription("\`\`\`Please reconsider your life choices.\`\`\`")
+                                .setTimestamp();
+                return message.channel.send(senate);
             }
             
 
@@ -72,7 +77,13 @@ module.exports = {
             });
         }
         else {
-            message.reply("You are not authorized to perform this action. Incident logged.");
+            const warn = new MessageEmbed()
+                        .setColor('#FF0000')
+                        .setTitle(`:lock: **Warning!**`)
+                        .setDescription('\`\`\`You Are Not Authorized For This Action.\`\`\`')
+                        .setFooter(`Don't think that you can pull a sneaky on me, ${message.member.displayName}`)
+                        .setTimestamp();
+            return message.channel.send(warn);
         }
     }
 }
