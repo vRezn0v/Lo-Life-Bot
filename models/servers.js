@@ -25,14 +25,18 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: false,
             allowNull: false,
         },
-        /*power_roles: {
-            type: DataTypes.ARRAY(DataTypes.STRING),
+        adminrole: {
+            type: DataTypes.STRING,
             allowNull: true
         },
-        trusted_roles: {
-            type: DataTypes.ARRAY(DataTypes.STRING),
+        modrole: {
+            type: DataTypes.STRING,
             allowNull: true
-        },*/
+        },
+        trustrole: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
         vote_mute_threshold: {
             type: DataTypes.INTEGER,
             defaultValue: 5,
