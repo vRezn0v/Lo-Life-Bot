@@ -14,6 +14,7 @@ client.aliases = new Discord.Collection();
 client.on('ready', () => {
     client.user.setActivity("flying into the sun.", { type: "PLAYING"});
     console.log(`MothBot Reporting to Duty Sire!`);
+    // Load all reminders from DB
 });
 
 
@@ -37,6 +38,7 @@ client.on('message', msg => {
 
 client.on("guildCreate", guild => {
     console.log("Joined a new guild: " + guild.name);
-})
+    // Code to upsert the guild into DB
+});
 
 client.login(token);
