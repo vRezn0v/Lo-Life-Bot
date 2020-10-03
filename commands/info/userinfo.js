@@ -15,7 +15,7 @@ module.exports = {
         //const role = target.guild.roles;
         //console.log(target.guild.roles);
         var roles = [];
-        const role = target.roles.cache.forEach(e => roles.push(e)) || "none";
+        target.roles.cache.forEach(e => roles.push(e)) || "none";
         roles = roles.join(', ');
         //isVoteEligible(message, '284153835591696385');
         const embed = new MessageEmbed()
