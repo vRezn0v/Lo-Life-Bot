@@ -4,6 +4,8 @@ const { getMember } = require('../../helpers');
 module.exports = {
     name: 'showroles',
     category: 'rolemanager',
+    description: 'This command shows all available Guild Roles and User Roles (if specified)',
+    usage: `**Requires Elevated Privilege**\`\`\`showrole <@user?>\`\`\``,
     run: async (client, message, args) => {
         const roles = new Map();
         let target, title, thumbnail;
