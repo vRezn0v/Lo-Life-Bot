@@ -4,6 +4,9 @@ module.exports = {
     category: 'rolemanager',
     description: "Removes An ID specified role from the mentioned user.",
     run: async (client, message, args) => {
-        
+        // Check Author Permissions
+        // Check Target Permissions
+        // Check if user has role
+        // Remove Role
     }
 }
