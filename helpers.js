@@ -134,4 +134,10 @@ module.exports = {
 
         return channel.send(embed);
     }
+
+    // ADD ACCESS LEVEL CHECKER
+
+    // ADD NUMBER BASED ACCESS LEVELS
+
+    // LIST BASED MODROLE CHECKER
 }
