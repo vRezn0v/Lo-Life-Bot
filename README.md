@@ -19,4 +19,7 @@ A general purpose discord guild management bot. With Multiple Commands.
 - Much More...
 ```
  ## Upcoming
- - 
+ ```
+ - Server Stats
+ - Permission Manager 
+ ```
