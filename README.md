@@ -21,5 +21,8 @@ A general purpose discord guild management bot. With Multiple Commands.
  ## Upcoming
  ```
  - Server Stats
- - Permission Manager 
+ - Permission Manager
+ - Lockdown
+ - Reminders
+ - Web API Support
  ```
