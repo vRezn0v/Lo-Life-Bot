@@ -1,4 +1,4 @@
-# Lo-Life-Bot [In Progress]**[Discord JS V12]**
+# Lo-Life-Bot [Undergoing Major Rewrite]**[Discord JS V12]**
 A general purpose discord guild management bot. With Multiple Commands.
 
 ## Todos:
