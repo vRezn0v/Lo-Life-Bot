@@ -21,3 +21,6 @@ A general purpose discord guild management bot. With Multiple Commands.
  - Lockdown
  - Reminders
  - Web API Support
+ 
+#### Contribute:
+Help us build the MothBot even better by assisting with module rewrites and we're beginning the process of writing a proper documentation, look out for updates.
